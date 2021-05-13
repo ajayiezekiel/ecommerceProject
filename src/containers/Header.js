@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   search: {
+    display: 'flex',
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -49,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: 'inherit',
-    [theme.breakpoints.down('xs')]: {
-      width: 145,
-    },
+    // [theme.breakpoints.down('xs')]: {
+    //   width: 145,
+    // },
   },
   clear: {
     backgroundColor: '#f52300',
