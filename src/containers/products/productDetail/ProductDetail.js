@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useState } from 'react';
 import { Grid, Button, Typography, Card, CardMedia } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,16 +9,21 @@ import axios from 'axios';
 import { selectedProduct } from '../../../redux/actions/ProductActions';
 import { useStyles, secondstyles } from './productDetail.styles';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const ProductDetail = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [error, setError] = useState('');
   const { productId } = useParams();
   const product = useSelector((state) => state.product);
   const { title, price, category, description, image } = product;
   const fetchProduct = async (id) => {
     const response = await axios
       .get(`https://fakestoreapi.com/products/${id}`)
-      .catch((err) => console.log('Error', err));
+      .catch((err) => setError('Error', err));
     dispatch(selectedProduct(response.data));
   };
   useEffect(() => {
@@ -26,6 +33,7 @@ const ProductDetail = () => {
     <Grid item container>
       <Grid item xs={false} sm={1} />
       <Grid item xs={12} sm={10}>
+        {error !== '' ? <Alert>{error}</Alert> : false}
         <Card className={classes.root}>
           <CardMedia
             className={clsx(classes.cardMedia, classes.childflex)}
